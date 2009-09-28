@@ -402,7 +402,6 @@ class Jabber {
 	//	
 	//
 	function connect($server_host,$server_port=5222,$connect_timeout=null,$alternate_ip=false) {
-		
 		if (is_null($connect_timeout)) $connect_timeout = DEFAULT_CONNECT_TIMEOUT;
 		$connector = $this->_connector;
 
@@ -544,6 +543,7 @@ class Jabber {
 
 //			$body = htmlspecialchars($body);
 //			$subject = htmlspecialchars($subject);
+
 			if (!$raw) {
 				$body = $this->xmlentities($body);
 				$subject = $this->xmlentities($subject);
@@ -725,8 +725,13 @@ class Jabber {
 
 		$payload = "<item jid='$jid'";
 		$payload .= ($name) ? " name='" . $this->xmlentities($name) . "'" : '';
-		$payload .= (($group) ? "><group>". $this->xmlentities($group) . "</group>\n</item": "/") . ">\n";
-
+		
+		$group = is_array($group) ? $group : array($group);
+		foreach ($group as $g) {
+			$payload .= ($g) ? "><group>". $this->xmlentities($g) . "</group>" : '';
+		}
+		$payload .= "\n</item>\n";
+		
 		if ($this->_send_iq(NULL, 'set', $update_id, "jabber:iq:roster", $payload)) {
 			return $add_id;
 		} else {
@@ -2298,9 +2303,6 @@ class Jabber {
 					} else {
 						$this->_call_handler("serviceupdate",$service_jid,$is_new);
 					}
-// 					echo "procesado $service_jid $jid\n";
-// 				if ($service_jid=="aspsms.swissjabber.ch") print_r($this->services[$service_jid]);
-// 					echo "----------------------\n";
 				}
 			}
 				

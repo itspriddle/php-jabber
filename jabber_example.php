@@ -1,4 +1,4 @@
-#!/usr/local/bin/php -q
+#!/usr/bin/php -q
 <?php
 /* Jabber Class Example
  * Copyright 2002-2007, Steve Blinch
@@ -23,11 +23,11 @@
  */
  
 // set your Jabber server hostname, username, and password here
-define("JABBER_SERVER","jabber.blitzaffe.com");
-define("JABBER_USERNAME","helium");
-define("JABBER_PASSWORD","zv4.5k1p8");
+define("JABBER_SERVER","jeremi.info");
+define("JABBER_USERNAME","steve");
+define("JABBER_PASSWORD","MonkOfDiso!");
 
-define("RUN_TIME",30);	// set a maximum run time of 30 seconds
+define("RUN_TIME",60);	// set a maximum run time of 30 seconds
 define("CBK_FREQ",1);	// fire a callback event every second
 
 
@@ -158,6 +158,10 @@ class TestMessenger {
 	}
 	
 	function handleRosterUpdate($jid) {
+		foreach ($this->jab->roster as $k=>$contact) {
+			echo print_r($contact, true);
+		}
+		
 		if ($this->first_roster_update) {
 			// the first roster update indicates that the entire roster has been
 			// downloaded for the first time
@@ -184,7 +188,7 @@ class TestMessenger {
 require_once("class_Jabber.php");
 
 // create an instance of the Jabber class
-$display_debug_info = false;
+$display_debug_info = true;
 $jab = new Jabber($display_debug_info);
 
 // create an instance of our event handler class

@@ -60,7 +60,7 @@ class ConnectionSocket {
 			
 			return true;
 		} else {
-			$this->error = "{$errstr} (#{$errno})";
+			$this->error = "{$errstr} (#{$errno}, ".__FILE__.", ".__LINE__.")";
 			return false;
 		}
 	}
